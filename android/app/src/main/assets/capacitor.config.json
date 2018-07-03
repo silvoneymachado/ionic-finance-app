@@ -1,0 +1,6 @@
+{
+  "appId": "com.yenovlisfinance.app",
+  "appName": "Personal Finance",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}

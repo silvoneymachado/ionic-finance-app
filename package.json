@@ -1,15 +1,15 @@
 {
   "name": "ionic-finance-app",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Silvoney Pinto Machado",
+  "email": "silvoneymachado@gmail.com",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
+    "build": "ionic-app-scripts build && npx cap copy",
     "lint": "ionic-app-scripts lint",
-    "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:build": "ionic-app-scripts build && npx cap copy",
+    "ionic:serve": "ionic-app-scripts serve && npx cap copy"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -21,6 +21,9 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@capacitor/android": "^1.0.0-beta.0",
+    "@capacitor/cli": "^1.0.0-beta.0",
+    "@capacitor/core": "^1.0.0-beta.0",
     "@ionic-native/core": "4.8.0",
     "@ionic-native/splash-screen": "4.8.0",
     "@ionic-native/status-bar": "4.8.0",

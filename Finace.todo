@@ -1,0 +1,37 @@
+Ideias:
+    * Lista principal com as despesas, receita e saldo
+    * Tanto na lista de receitas quanto na lista de despesas exibir em cascata
+        Ex.
+        * Cartao1
+            * Item1 do cartao1
+            * Item2 do cartao1
+        * Cartao2
+            * Item1 do cartao2
+        * ContasFixas
+        * Receitas
+            * Banco
+            * Carteira
+        * Mercado
+        * Veiculo
+    * Ao abrir pela primeira vez preencher dados de conta, carteira e salario
+    * Utilizar exemplo do app de listas da aula do Marco
+
+Tarefas:
+    Criar layout da tela de despesas:
+        ☐ FAB - Para adicionar 
+            ☐ Nova divisão de despesa, cartão nubank ex.
+                + Nome
+                + Tipo
+                + Data vencimento
+            ☐ Nova despesa
+                + droplist das divisões a serem escolhidas
+                    + Será mostrada de acordo com as divisões cadastradas previamente
+                    + Opção de adicionar nova divisão
+                + Nome
+                + Categoria
+                    + Moradia
+                    + Estudos
+                    + Veículos
+                    + Diversão
+                    + Roupas
+                    + Alimentação
