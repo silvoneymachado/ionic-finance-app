@@ -17,21 +17,53 @@ Ideias:
     * Utilizar exemplo do app de listas da aula do Marco
 
 Tarefas:
-    Criar layout da tela de despesas:
-        ☐ FAB - Para adicionar 
-            ☐ Nova divisão de despesa, cartão nubank ex.
-                + Nome
-                + Tipo
-                + Data vencimento
-            ☐ Nova despesa
-                + droplist das divisões a serem escolhidas
-                    + Será mostrada de acordo com as divisões cadastradas previamente
-                    + Opção de adicionar nova divisão
-                + Nome
-                + Categoria
-                    + Moradia
-                    + Estudos
-                    + Veículos
-                    + Diversão
-                    + Roupas
-                    + Alimentação
+  Regra de negócio:
+    + Lista das categorias já vem pre informada
+    + É possivel adicionar mais categorias
+    + Para o futuro total por categria no período
+  Criar layout da tela de despesas:
+      FAB - Para adicionar :
+          ☐ Nova divisão de despesa, cartão nubank ex.
+              + Nome
+              + Tipo
+              + Data vencimento
+          ☐ Nova despesa
+              + Data
+              + Vencimento (somente quando a divisão não é cartão)
+              + Recorrência
+              + droplist das divisões a serem escolhidas
+                  + Será mostrada de acordo com as divisões cadastradas previamente
+                  + Opção de adicionar nova divisão
+              + Nome
+              + Parcelado (ex.: 1 de 3)
+              + Categoria
+                  + Moradia
+                  + Estudos
+                  + Veículos
+                  + Diversão
+                  + Roupas
+                  + Alimentação
+      Abas:
+        Home:
+          ☐ Total de receitas
+          ☐ Total de despesas
+          ☐ Saldo (campo calculado)
+        Despesas:
+          ☐ Divisões das despesas
+            + Mostra o total das divisões
+            + Expande pra baixo as despesas ou abre um modal com elas
+          ☐ Despesas, são expandidas ou utilizam modal
+            + Na lista mostrar data, nome, valor e parcela
+            + Ao tocar na despesa mostrar detalhes
+        Receitas:
+          ☐ Divisões das despesas
+            + Mostra o total das divisões
+            + Expande pra baixo as receitas ou abre um modal com elas
+
+  Lógica:
+    Providers:
+      LocalStorage:
+        ☐ Salvar
+        ☐ Recuperar 1
+        ☐ Recuperar Todos
+      Firebase (uso futuro):
