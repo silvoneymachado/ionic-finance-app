@@ -18,31 +18,41 @@ Ideias:
 
 Tarefas:
   Regra de negócio:
-    + Lista das categorias já vem pre informada
-    + É possivel adicionar mais categorias
-    + Para o futuro total por categria no período
-  Criar layout da tela de despesas:
+    + Lista das tags já vem pre informada
+    + É possivel adicionar mais tags
+    + Para o futuro total por tags no período
+    + Despesa possui data de vencimento
+      + Quando pertence a cartão de crédito é a mesma do cartão e possui parcela
+      + Quando não pertence possui data independente
+  Criar layouts:
       FAB - Para adicionar :
-          ☐ Nova divisão de despesa, cartão nubank ex.
+          ☐ Nova Categoria, cartão nubank ex.
               + Nome
               + Tipo
-              + Data vencimento
+              + Data vencimento (caso seja cartão)
           ☐ Nova despesa
               + Data
-              + Vencimento (somente quando a divisão não é cartão)
+              + Vencimento (somente quando a Categoria não é cartão)
               + Recorrência
               + droplist das divisões a serem escolhidas
                   + Será mostrada de acordo com as divisões cadastradas previamente
-                  + Opção de adicionar nova divisão
+                  + Opção de adicionar nova Categoria
               + Nome
               + Parcelado (ex.: 1 de 3)
-              + Categoria
+              + TAGS
                   + Moradia
                   + Estudos
                   + Veículos
                   + Diversão
                   + Roupas
                   + Alimentação
+            ☐ Nova receita
+              + Nome
+              + Data
+              + Recorrência
+              + droplist das divisões a serem escolhidas
+                  + Será mostrada de acordo com as divisões cadastradas previamente
+                  + Opção de adicionar nova Categoria
       Abas:
         Home:
           ☐ Total de receitas
@@ -63,7 +73,5 @@ Tarefas:
   Lógica:
     Providers:
       LocalStorage:
-        ☐ Salvar
-        ☐ Recuperar 1
-        ☐ Recuperar Todos
+        ☐ CRUD
       Firebase (uso futuro):

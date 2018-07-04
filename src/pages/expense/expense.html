@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Expenses
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <button detail-none (click)="expandItem(category)" ion-item *ngFor="let category of categories">
+      <h2>Ourocard</h2>
+      <p>R$ 20,00</p>
+      <expandable text-justify [expandHeight]="itemExpandHeight" [expanded]="category.expanded">
+        <ion-item>
+          <ion-icon name="arrow-round-down"></ion-icon> Anuidade
+          <p>R$ 20,00 | 15/06/2018 | 1 de 3</p>
+        </ion-item>
+      </expandable>
+      <button ion-button clear item-end>
+        <ion-icon *ngIf="!category.expanded" name="arrow-dropdown-circle"></ion-icon>
+        <ion-icon *ngIf="category.expanded" name="arrow-dropup-circle"></ion-icon>
+      </button>
+    </button>
+  </ion-list>
+</ion-content>

@@ -1,5 +1,18 @@
+<ion-fab bottom right style="margin-bottom: 70px; margin-right: 5px">
+  <button ion-fab>
+    <ion-icon name="add"></ion-icon>
+  </button>
+  <ion-fab-list side="top">
+    <button ion-fab>
+      <ion-icon name="cash"></ion-icon>
+    </button>
+    <button ion-fab>
+      <ion-icon name="pricetag"></ion-icon>
+    </button>
+  </ion-fab-list>
+</ion-fab>
 <ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Despesas" tabIcon="cash"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Receitas" tabIcon="pricetag"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Expenses" tabIcon="cash"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Revenues" tabIcon="pricetag"></ion-tab>
 </ion-tabs>
