@@ -1,4 +1,5 @@
-import { HttpClient } from "@angular/common/http";
+import { Http } from "@angular/http";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
@@ -7,17 +8,17 @@ import { IonicStorageModule } from "@ionic/storage";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { HttpModule, Http } from "@angular/http";
-
+import { ExpandableComponent } from "../components/expandable/expandable";
+import { MyApp } from "./app.component";
 import { ExpensePage, HomePage, RevenuePage, TabsPage } from "../pages/pages";
 import {
   CategoryProvider,
   CategoryTypeProvider,
   ExpenseProvider,
-  InitialItemsProvider
+  InitialItemsProvider,
+  TagProvider,
+  MonthSelectorProvider
 } from "../providers/providers";
-import { ExpandableComponent } from "./../components/expandable/expandable";
-import { MyApp } from "./app.component";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -27,21 +28,18 @@ const PROVIDERS = [
   ExpenseProvider,
   CategoryProvider,
   CategoryTypeProvider,
-  InitialItemsProvider
+  InitialItemsProvider,
+  TagProvider,
+  MonthSelectorProvider
 ];
 
+const PAGES = [MyApp, ExpensePage, RevenuePage, HomePage, TabsPage];
+
 @NgModule({
-  declarations: [
-    MyApp,
-    ExpensePage,
-    RevenuePage,
-    HomePage,
-    TabsPage,
-    ExpandableComponent
-  ],
+  declarations: [...PAGES, ExpandableComponent],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
     TranslateModule.forRoot({
       loader: {
@@ -56,7 +54,7 @@ const PROVIDERS = [
     })
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, ExpensePage, RevenuePage, HomePage, TabsPage],
+  entryComponents: [...PAGES],
   providers: [
     HttpClient,
     StatusBar,

@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { Storage } from "@ionic/storage";
 import { Injectable } from "@angular/core";
-
-import { Expense } from "./../../models/classes";
+import { Storage } from "@ionic/storage";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+
+import { Expense } from "../../models/classes";
 
 /*
   Generated class for the StorageProvider provider.
@@ -39,7 +39,7 @@ export class ExpenseProvider {
   /**
    * clearLocal
    */
-  public clearLocal(): Promise<boolean> {
+  private clearLocal(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
         this.storage
@@ -55,7 +55,7 @@ export class ExpenseProvider {
   /**
    * addItemLocal
    */
-  public addItemLocal(item: Expense): Promise<Expense> {
+  private addItemLocal(item: Expense): Promise<Expense> {
     return new Promise<Expense>((resolve, reject) => {
       try {
         this.getItemsLocal().then(items => {
@@ -64,14 +64,51 @@ export class ExpenseProvider {
             items.push(item);
 
             this.clearLocal().then(res => {
-              this.setItemsLocal(items);
+              this.setItemsLocal(items)
+                .then(itemsStorage => {
+                  resolve(item);
+                })
+                .catch(err => reject(err));
             });
           } else {
             item.id = 1;
             items = [item];
-            this.setItemsLocal(items);
+            this.setItemsLocal(items)
+              .then(itemsStorage =>
+                resolve(itemsStorage[itemsStorage.length - 1])
+              )
+              .catch(err => reject(err));
           }
         });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * saveItemLocal
+   */
+  public saveItemLocal(item: Expense): Promise<Expense> {
+    return new Promise<Expense>((resolve, reject) => {
+      try {
+        if (item.id == 0) {
+          this.addItemLocal(item)
+            .then(result => {
+              resolve(result);
+            })
+            .catch(err => {
+              reject(err);
+            });
+        } else {
+          this.updateItemsLocal(item)
+            .then(result => {
+              resolve(result);
+            })
+            .catch(err => {
+              reject(err);
+            });
+        }
       } catch (error) {
         reject(error);
       }
@@ -103,7 +140,6 @@ export class ExpenseProvider {
         this.storage
           .get(this._className)
           .then(items => {
-            console.log(items);
             resolve(JSON.parse(items));
           })
           .catch(error => {
@@ -169,7 +205,7 @@ export class ExpenseProvider {
   /**
    * updateItemsLocal
    */
-  public updateItemsLocal(item: Expense): Promise<Expense> {
+  private updateItemsLocal(item: Expense): Promise<Expense> {
     return new Promise<Expense>((resolve, reject) => {
       try {
         this.deleteItemByIdLocal(item.id).then(res => {

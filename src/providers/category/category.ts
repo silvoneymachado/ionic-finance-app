@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
 
-import { Category } from "./../../models/classes";
+import { Category, Expense } from "../../models/classes";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 
@@ -14,7 +14,7 @@ import { Observable } from "rxjs/Observable";
 */
 @Injectable()
 export class CategoryProvider {
-  private _className: string = "expense";
+  private _className: string = "category";
   private _data: { category: Category[] } = { category: [] };
   private _category: BehaviorSubject<Category[]> = new BehaviorSubject([]);
 
@@ -23,7 +23,7 @@ export class CategoryProvider {
   /**
    * category
    */
-  public category(): Observable<Category[]> {
+  public categories(): Observable<Category[]> {
     this.getItemsLocal()
       .then(items => {
         if (items) {
@@ -40,7 +40,7 @@ export class CategoryProvider {
   /**
    * clearLocal
    */
-  public clearLocal(): Promise<boolean> {
+  private clearLocal(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
         this.storage
@@ -56,7 +56,7 @@ export class CategoryProvider {
   /**
    * addItemLocal
    */
-  public addItemLocal(item: Category): Promise<Category> {
+  private addItemLocal(item: Category): Promise<Category> {
     return new Promise<Category>((resolve, reject) => {
       try {
         this.getItemsLocal().then(items => {
@@ -73,6 +73,35 @@ export class CategoryProvider {
             this.setItemsLocal(items);
           }
         });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * saveItemLocal
+   */
+  public saveItemLocal(item: Category): Promise<Category> {
+    return new Promise<Category>((resolve, reject) => {
+      try {
+        if (item.id > 0) {
+          this.addItemLocal(item)
+            .then(result => {
+              resolve(result);
+            })
+            .catch(err => {
+              reject(err);
+            });
+        } else {
+          this.updateItemsLocal(item)
+            .then(result => {
+              resolve(result);
+            })
+            .catch(err => {
+              reject(err);
+            });
+        }
       } catch (error) {
         reject(error);
       }
@@ -104,11 +133,14 @@ export class CategoryProvider {
         this.storage
           .get(this._className)
           .then(items => {
-            console.log(items);
             resolve(JSON.parse(items));
+            // if (!items) {
+            //   resolve(items);
+            // } else {
+            //   resolve(JSON.parse(items));
+            // }
           })
           .catch(error => {
-            console.log(error);
             reject(error);
           });
       } catch (error) {
@@ -148,6 +180,94 @@ export class CategoryProvider {
   public deleteItemByIdLocal(id: number): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
+        this.getExpensesLocal()
+          .then(exps => {
+            if (exps) {
+              let listPro: Promise<boolean>[] = [];
+              exps.forEach(exp => {
+                if (exp.idCategory == id) {
+                  listPro.push(this.deleteExpenseLocal(exp.id));
+                }
+              });
+              Promise.all(listPro)
+                .then(res => {
+                  this.deleteCat(id)
+                    .then(res1 => {
+                      resolve(res1);
+                    })
+                    .catch(err => reject(err));
+                })
+                .catch(err => reject(err));
+            } else {
+              this.deleteCat(id)
+                .then(res1 => {
+                  resolve(res1);
+                })
+                .catch(err => reject(err));
+            }
+          })
+          .catch(err => reject(err));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  private getExpensesLocal(): Promise<Expense[]> {
+    return new Promise<Expense[]>((resolve, reject) => {
+      try {
+        this.storage
+          .get("expense")
+          .then(items => {
+            resolve(JSON.parse(items));
+          })
+          .catch(error => {
+            console.log(error);
+            reject(error);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  private deleteExpenseLocal(id: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      try {
+        this.getExpensesLocal()
+          .then(items => {
+            if (items) {
+              items = items.filter(item => item.id !== id);
+              this.setExpensesLocal(items);
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  private setExpensesLocal(items: Expense[]): Promise<Expense[]> {
+    return new Promise<Expense[]>((resolve, reject) => {
+      try {
+        this.storage
+          .set("expense", JSON.stringify(items))
+          .then(itemsStorage => resolve(itemsStorage))
+          .catch(err => reject(err));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  private deleteCat(id: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      try {
         this.getItemsLocal()
           .then(items => {
             if (items) {
@@ -170,7 +290,7 @@ export class CategoryProvider {
   /**
    * updateItemsLocal
    */
-  public updateItemsLocal(item: Category): Promise<Category> {
+  private updateItemsLocal(item: Category): Promise<Category> {
     return new Promise<Category>((resolve, reject) => {
       try {
         this.deleteItemByIdLocal(item.id).then(res => {

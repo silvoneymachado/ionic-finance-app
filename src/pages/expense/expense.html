@@ -1,26 +1,48 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Expenses
+      Despesas
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <button detail-none (click)="expandItem(category)" ion-item *ngFor="let category of categories">
-      <h2>Ourocard</h2>
-      <p>R$ 20,00</p>
-      <expandable text-justify [expandHeight]="itemExpandHeight" [expanded]="category.expanded">
-        <ion-item>
-          <ion-icon name="arrow-round-down"></ion-icon> Anuidade
-          <p>R$ 20,00 | 15/06/2018 | 1 de 3</p>
-        </ion-item>
+    <ion-card *ngIf="categories.length == 0">
+      <ion-card-header>Não há categorias cadastradas</ion-card-header>
+      <ion-card-content>
+        Utilize o botão + para cadastrar alguma e cadastre suas despesas dentro dela.
+      </ion-card-content>
+    </ion-card>
+    <ion-card ion-item detail-none *ngFor="let category of categories">
+      <ion-card-header>
+        {{category.name}}
+        <button ion-button clear float-right (click)="deleteCategory(category)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        <!-- <button ion-button clear float-right (click)="expandItem(category)">
+          <ion-icon *ngIf="!category.expanded" name="arrow-dropdown-circle"></ion-icon>
+          <ion-icon *ngIf="category.expanded" name="arrow-dropup-circle"></ion-icon>
+        </button> -->
+        <button ion-button clear float-right (click)="addItem(category)">
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <p (click)="expandItem(category)">{{category.total | currency:'BRL'}} </p>
+      </ion-card-header>
+      <expandable text-justify [expandHeight]="itemExpandHeight" [expanded]="category.expanded" *ngFor="let expense of category.expense">
+        <ion-item-sliding>
+          <ion-item>
+            <ion-icon name="arrow-round-down"></ion-icon> {{expense.name}}
+            <p>{{expense.value | currency:'BRL'}} | {{expense.date}} | {{expense.currentInstallment}} de {{expense.totalInstallment}}
+            </p>
+          </ion-item>
+          <ion-item-options slide="left">
+            <button ion-button color="danger" (click)="deleteExpense(expense)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
       </expandable>
-      <button ion-button clear item-end>
-        <ion-icon *ngIf="!category.expanded" name="arrow-dropdown-circle"></ion-icon>
-        <ion-icon *ngIf="category.expanded" name="arrow-dropup-circle"></ion-icon>
-      </button>
-    </button>
+    </ion-card>
   </ion-list>
 </ion-content>
