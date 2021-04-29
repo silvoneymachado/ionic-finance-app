@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: ionicons
+    versions:
+    - 5.4.0
+    - 5.5.0
+  - dependency-name: "@capacitor/core"
+    versions:
+    - 2.4.6
+  - dependency-name: "@capacitor/cli"
+    versions:
+    - 2.4.6
